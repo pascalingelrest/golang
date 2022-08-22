@@ -48,7 +48,8 @@ func main() {
 	//printing_in_format()
 	//read_buffer()
 	//using_flags()
-	reading_input()
+	//eading_input()
+	bufioScanner()
 
 }
 
@@ -475,6 +476,7 @@ func read_buffer() {
 	fname, _ := reader.ReadString('\n')
 
 	fmt.Printf("Your name is %s", fname)
+
 }
 
 func using_flags() {
@@ -503,4 +505,23 @@ func reading_input() {
 	fmt.Println("What is your name")
 	fmt.Scanf("%s", &name)
 	fmt.Printf("My name is %s", name)
+
+	//read thge documentation because scanf can do a lot
+
+}
+
+func bufioScanner() {
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		if scanner.Text() == "/quit" {
+			fmt.Println("Quitting.....")
+			os.Exit(3)
+		} else {
+			fmt.Println("You typed " + scanner.Text())
+		}
+
+	}
+	if err := scanner.Err(); err != nil {
+		fmt.Println(err)
+	}
 }
