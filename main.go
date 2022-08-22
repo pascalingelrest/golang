@@ -52,12 +52,45 @@ func main() {
 	//bufioScanner()
 	//bufioScannerFile()
 
+	/*  full example program introducing arg, bufio, and err handling
+
 	args := os.Args[1:]                       //filename is argemunt  [1:] to exlcude arg 1 who is the filename
 	if len(args) == 0 || args[0] == "/help" { //check is ther is argement, and it is [0] because we exclude the program name above
 		fmt.Println("Usage: main.go <input file>")
 	} else {
-		//do stuff
+		fmt.Println("How would you like to see the text ?")
+		fmt.Println("1: ALL CAPS")
+		fmt.Println("2: Title Case")
+		fmt.Println("3: lower Case")
+
+		var option int
+		_, err := fmt.Scanf("%d", &option)
+
+		//checking is file exists
+		file, err := os.Open(args[0])
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer file.Close()
+		//end checking
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			switch option {
+			case 1:
+				fmt.Println(strings.ToUpper(scanner.Text()))
+			case 2:
+				fmt.Println(strings.Title(scanner.Text()))
+			case 3:
+				fmt.Println(strings.ToLower(scanner.Text()))
+
+			}
+		}
+
+		if err := scanner.Err(); err != nil {
+			fmt.Println(err)
+		}
 	}
+	*/
 
 }
 
