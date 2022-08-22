@@ -49,7 +49,15 @@ func main() {
 	//read_buffer()
 	//using_flags()
 	//eading_input()
-	bufioScanner()
+	//bufioScanner()
+	//bufioScannerFile()
+
+	args := os.Args[1:]                       //filename is argemunt  [1:] to exlcude arg 1 who is the filename
+	if len(args) == 0 || args[0] == "/help" { //check is ther is argement, and it is [0] because we exclude the program name above
+		fmt.Println("Usage: main.go <input file>")
+	} else {
+		//do stuff
+	}
 
 }
 
@@ -520,6 +528,22 @@ func bufioScanner() {
 			fmt.Println("You typed " + scanner.Text())
 		}
 
+	}
+	if err := scanner.Err(); err != nil {
+		fmt.Println(err)
+	}
+}
+
+func bufioScannerFile() {
+	file, err := os.Open("test.txt")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Println(err)
