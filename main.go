@@ -92,6 +92,9 @@ func main() {
 	}
 	*/
 
+	o := strToslice("raad	A	Active	3600	213.39.91.103")
+	println(o)
+
 }
 
 func primitive_data_types() {
@@ -581,4 +584,13 @@ func bufioScannerFile() {
 	if err := scanner.Err(); err != nil {
 		fmt.Println(err)
 	}
+}
+
+func strToslice(s string) string {
+	slice := strings.Split(s, "\t")
+	var o string
+	//TODO: fill string to return it
+	o = slice[0] + ",IN " + slice[1] + "," + slice[3] + "," + slice[4]
+	return o
+
 }
