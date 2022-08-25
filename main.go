@@ -10,12 +10,19 @@ import (
 	"os"
 	"runtime"
 	"strings"
+	"time"
 )
 
 const (
 	first  = iota
 	second = iota + 6  //iota value is here 1 , output will be 6
 	third  = 3 << iota //iota vaule is here 2 , output is 2 bitshifted by 3
+
+	colorRed    = "\033[0;31m"
+	colorGreen  = "\033[0;32m"
+	colorYellow = "\033[1;33m"
+	colorBlue   = "\033[0;34m"
+	colorNone   = "\033[0m"
 )
 
 const (
@@ -52,7 +59,7 @@ func main() {
 	//bufioScanner()
 	//bufioScannerFile()
 
-	/*  full example program introducing arg, bufio, and err handling
+	/*----  full example program introducing arg, bufio, and err handling
 
 	args := os.Args[1:]                       //filename is argemunt  [1:] to exlcude arg 1 who is the filename
 	if len(args) == 0 || args[0] == "/help" { //check is ther is argement, and it is [0] because we exclude the program name above
@@ -90,11 +97,14 @@ func main() {
 			fmt.Println(err)
 		}
 	}
-	*/
+	-----*/
 
+	/*----
 	o := strToslice("raad	A	Active	3600	213.39.91.103")
 	println(o)
+	-----*/
 
+	concurrency()
 }
 
 func primitive_data_types() {
@@ -593,4 +603,21 @@ func strToslice(s string) string {
 	o = slice[0] + ",IN " + slice[1] + "," + slice[3] + "," + slice[4]
 	return o
 
+}
+
+func concurrency() {
+	go func() {
+		for i := 0; i < 10; i++ {
+			fmt.Printf(colorYellow+"first for loop number i = %d\n"+colorNone, i)
+			time.Sleep(100 * time.Millisecond)
+		}
+	}()
+
+	go func() {
+		for y := 100; y < 110; y++ {
+			fmt.Printf("second for loop number i = %d\n", y)
+			time.Sleep(150 * time.Millisecond)
+		}
+	}()
+	time.Sleep(3 * time.Second)
 }
