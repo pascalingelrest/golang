@@ -10,7 +10,7 @@ import (
 	"os"
 	"runtime"
 	"strings"
-	"time"
+	"sync"
 )
 
 const (
@@ -105,6 +105,7 @@ func main() {
 	-----*/
 
 	concurrency()
+	//stopByPressing()
 }
 
 func primitive_data_types() {
@@ -606,18 +607,46 @@ func strToslice(s string) string {
 }
 
 func concurrency() {
-	go func() {
-		for i := 0; i < 10; i++ {
-			fmt.Printf(colorYellow+"first for loop number i = %d\n"+colorNone, i)
-			time.Sleep(100 * time.Millisecond)
-		}
-	}()
+	wg := &sync.WaitGroup{}
+	wg.Add(3) //2 tasks that we are waiting on
 
-	go func() {
-		for y := 100; y < 110; y++ {
-			fmt.Printf("second for loop number i = %d\n", y)
-			time.Sleep(150 * time.Millisecond)
+	go func(wg *sync.WaitGroup) {
+		for i := 0; i < 1000000; i++ {
+			if i%50000 == 0 {
+				fmt.Printf(colorYellow+"first for loop reached number %d\n"+colorNone, i)
+			}
+		}
+		wg.Done()
+	}(wg)
+
+	go func(wg *sync.WaitGroup) {
+		for y := 0; y < 1000000; y++ {
+			if y%50000 == 0 {
+				fmt.Printf("second for loop reached %d\n", y)
+			}
+		}
+		wg.Done()
+	}(wg)
+
+	go func(wg *sync.WaitGroup) {
+		for z := 0; z < 1000000; z++ {
+			if z%50000 == 0 {
+				fmt.Printf(colorGreen+"third for loop reached %d\n"+colorNone, z)
+			}
+		}
+		wg.Done()
+	}(wg)
+
+	wg.Wait() //wait until our waitgroup  is no longer waiting on any concurrent task
+
+}
+
+func stopByPressing() {
+
+	//TODO: add concurrent task with a scanf and after pressing button stop the loop
+	func() {
+		for i := 1; i < 11; i++ {
+			fmt.Printf("%04d\n", i)
 		}
 	}()
-	time.Sleep(3 * time.Second)
 }
