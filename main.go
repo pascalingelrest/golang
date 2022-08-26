@@ -1,5 +1,7 @@
 package main
 
+// https://github.com/pascalingelrest/golang.git
+
 import (
 	"bufio"
 	"encoding/json"
@@ -608,7 +610,7 @@ func strToslice(s string) string {
 
 func concurrency() {
 	wg := &sync.WaitGroup{}
-	wg.Add(3) //2 tasks that we are waiting on
+	wg.Add(3) //3 tasks that we are waiting on
 
 	go func(wg *sync.WaitGroup) {
 		for i := 0; i < 1000000; i++ {
