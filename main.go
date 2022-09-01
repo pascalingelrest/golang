@@ -13,6 +13,7 @@ import (
 	"runtime"
 	"strings"
 	"sync"
+	"time"
 )
 
 const (
@@ -106,8 +107,10 @@ func main() {
 	println(o)
 	-----*/
 
-	concurrency()
+	//concurrency()
 	//stopByPressing()
+	testErrorHandling()
+
 }
 
 func primitive_data_types() {
@@ -609,6 +612,8 @@ func strToslice(s string) string {
 }
 
 func concurrency() {
+
+	//IF YOU HAVE PROBLEM BY SHARED MEMORY TAKE A LOOK AT MUTEX AND RWMUTEX
 	wg := &sync.WaitGroup{}
 	wg.Add(3) //3 tasks that we are waiting on
 
@@ -646,9 +651,35 @@ func concurrency() {
 func stopByPressing() {
 
 	//TODO: add concurrent task with a scanf and after pressing button stop the loop
-	func() {
-		for i := 1; i < 11; i++ {
-			fmt.Printf("%04d\n", i)
+
+	go doSomething()
+	fmt.Println("Press the Enter key to stop anytime")
+	fmt.Scanln()
+
+}
+
+func doSomething() {
+	i := 0
+	for {
+		fmt.Println(i)
+		time.Sleep(time.Second * 1)
+		i++
+	}
+}
+
+func testErrorHandling() {
+	resulthttps, errhttps := http.Get("https://www.oostende.be")
+	if errhttps != nil { //if https doesnt exists
+		fmt.Println("failing back to http........")
+		resulthttp, errhttp := http.Get("http://www.oostende.be")
+		if errhttp != nil { //if http doesnt exists
+			fmt.Println(errhttp)
+		} else {
+			fmt.Println("do something with http")
+			defer resulthttp.Body.Close()
 		}
-	}()
+	} else {
+		fmt.Printf("do something with https")
+		defer resulthttps.Body.Close()
+	}
 }
